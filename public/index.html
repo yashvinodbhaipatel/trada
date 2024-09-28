@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="ticker">
+        <div class="ticker-text" id="tickerText">
+            Nifty: Loading... | Bank Nifty: Loading...
+        </div>
+    </div>
+    <!-- Navigation Bar with Custom Image Logos -->
+    <nav class="navbar">
+        <ul class="navbar-list">
+            <li><a   href="#watch-market"><img src="navicons/watch.png" alt="Watch Market" class="nav-icon"> Watch
+                    Market</a></li>
+            <li><a   href="#position-report"><img src="navicons/financial-statement.png" alt="Position Report"
+                        class="nav-icon"> Position Report</a></li>
+            <li><a   href="#trading"><img src="navicons/trading-chart.png" alt="Trading" class="nav-icon"> Trading</a>
+            </li>
+            <li><a   href="#logs"><img src="navicons/log-file.png" alt="Logs" class="nav-icon"> Logs</a></li>
+            <li><a   href="#ledger"><img src="navicons/ledger.png" alt="Ledger" class="nav-icon"> Ledger</a></li>
+            <li><a   href="#settings"><img src="navicons/setting-gear.png" alt="Settings" class="nav-icon"> Settings</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="main-con">
+        <div class="mcx-con">
+            <div class="mcx-header">
+                <span class="mcx-text-on-top-on-top">MCX</span>
+            </div>
+            <br>
+            <br>
+            <div class="controls">
+                <button class="mcx-add-new-script">Add New Script</button>
+                <input class="search" type="text" placeholder="Search...">
+                <button class="add-new-expiry">Add New Expiry</button>
+                <button class="mcx-add-all-Script">Add All Script</button>
+            </div>
+        </div>
+
+        <div class="mcx-con">
+            <div class="mcx-header">
+                <span class="mcx-text-on-top-on-top">NSE</span>
+            </div>
+            <br>
+            <br>
+
+            <div class="controls">
+                <button class="nsc-add-new-script">Add New Script</button>
+                <input class="search" type="text" placeholder="Search...">
+                <button class="add-new-expiry">Add New Expiry</button>
+                <button class="addAllScripts">Add All Script</button>
+            </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Select Scripts</h3>
+                    <ul class="script-list">
+                        <li onclick="toggleSelection(this)">Nifty 50</li>
+                        <li onclick="toggleSelection(this)">Bank Nifty</li>
+                        <li onclick="toggleSelection(this)">Reliance</li>
+                        <li onclick="toggleSelection(this)">TCS</li>
+                        <!-- Add more scripts as needed -->
+                    </ul>
+                    <button id="addSelectedScripts">Add Selected Scripts</button>
+                    <button id="addAllScripts">Add All Scripts</button>
+                </div>
+            </div>
+            
+            
+            <section class="table__body">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Script</th>
+                            <th>Bid</th>
+                            <th>Ask</th>
+                            <th>LTP</th>
+                            <th>Change</th>
+                            <th>Change %</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Open</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </section>
+        </div>
+
+    </div>
+    <div id="orderModal" class="order-modal">
+        <div class="order-modal-content">
+            <span class="close-order" onclick="closeOrderModal()">&times;</span>
+            <h3>Place Order</h3>
+            <label>
+                <input type="checkbox" id="buyCheckbox"> Buy
+            </label>
+            <label>
+                <input type="checkbox" id="sellCheckbox"> Sell
+            </label>
+            <label for="orderType">Order Type:</label>
+            <select id="orderType">
+                <option value="market">Market</option>
+                <option value="limit">Limit</option>
+            </select>
+            <label for="lotSize">Lot Size:</label>
+            <input type="number" id="lotSize" placeholder="Enter Lot Size">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" placeholder="Enter Quantity">
+            <label for="price">Price:</label>
+            <input type="number" id="price" placeholder="Enter Price" step="0.01">
+            <button id="submitOrder" onclick="submitOrder()">Submit</button>
+            <button onclick="closeOrderModal()">Close</button>
+        </div>
+    </div>
+    <div class="mcx-con">
+        <div class="mcx-header">
+            <span class="mcx-text-on-top-on-top">NOPT</span>
+        </div>
+        <br>
+        <br>
+
+        <div class="controls">
+            <button class="mcx-add-new-script">Add New Script</button>
+            <input class="search" type="text" placeholder="Search...">
+            <button class="mcx-add-all-Script">Add All Script</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

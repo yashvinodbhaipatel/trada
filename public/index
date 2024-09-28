@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Tracker</title>
+    <style nonce="{{nonce}}">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #212f4d;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .controls label {
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .mcx-con {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #2a394e;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .mcx-header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .mcx-text-on-top-on-top {
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #284c86;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #e69b05;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input.search {
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            margin: 0 4px;
+            width: calc(20% - 16px);
+            background-color: #1e2a36;
+            color: white;
+        }
+
+        input.search::placeholder {
+            color: #aaa;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 2px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        th {
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            background-color: #1e2a36;
+        }
+
+        tr:hover {
+            background-color: #3c4b61;
+        }
+
+        .main-con {
+            margin-top: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #2a394e;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            color: white;
+            text-align: left;
+        }
+
+        .close {
+            color: white;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #f44336;
+        }
+
+        .script-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .script-list li {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .script-list li:hover {
+            background-color: #3c4b61;
+        }
+        .order-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .order-modal-content {
+            background-color: #2a394e;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            color: white;
+            text-align: left;
+        }
+
+        .order-modal-content h3 {
+            margin-top: 0;
+        }
+
+        .order-modal-content label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .order-modal-content input,
+        .order-modal-content select {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #1e2a36;
+            color: white;
+        }
+
+        .order-modal-content button {
+            background-color: #e69b05;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .order-modal-content button:hover {
+            background-color: #45a049;
+        }
+        .ticker {
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #1e2a36;
+            padding: 10px 0;
+            position: relative;
+            font-size: 18px;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            animation: scroll 10s linear infinite; /* Adjust the duration for speed */
+            color: #e69b05; /* Ticker text color */
+        }
+
+        @keyframes scroll {
+            from {
+                transform: translateX(400%); /* Start from the right */
+            }
+
+            to {
+                transform: translateX(-400%); /* End at the left */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ticker">
+        <div class="ticker-text" id="tickerText">
+            Nifty: Loading... | Bank Nifty: Loading...
+        </div>
+    </div>
+ <div class="main-con">
+        <div class="mcx-con">
+            <div class="mcx-header">
+                <span class="mcx-text-on-top-on-top">MCX</span>
+            </div>
+            <div class="controls">
+                <button class="mcx-add-new-script">Add New Script</button>
+                <input class="search" type="text" placeholder="Search...">
+                <button class="add-new-expiry">Add New Expiry</button>
+                <button class="mcx-add-all-Script">Add All Script</button>
+            </div>
+        </div>
+
+        <div class="mcx-con">
+            <div class="mcx-header">
+                <span class="mcx-text-on-top-on-top">NSE</span>
+            </div>
+            <div class="controls">
+                <button class="nsc-add-new-script">Add New Script</button>
+                <input class="search" type="text" placeholder="Search...">
+                <button class="add-new-expiry">Add New Expiry</button>
+                <button class="addAllScripts">Add All Script</button>
+            </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h3>Select Scripts</h3>
+                    <ul class="script-list">
+                        <li onclick="toggleSelection(this)">Nifty 50</li>
+                        <li onclick="toggleSelection(this)">Bank Nifty</li>
+                        <li onclick="toggleSelection(this)">Reliance</li>
+                        <li onclick="toggleSelection(this)">TCS</li>
+                        <!-- Add more scripts as needed -->
+                    </ul>
+                    <button id="addSelectedScripts">Add Selected Scripts</button>
+                    <button id="addAllScripts">Add All Scripts</button>
+                </div>
+            </div>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Script</th>
+                        <th>Bid</th>
+                        <th>Ask</th>
+                        <th>LTP</th>
+                        <th>Change</th>
+                        <th>Change %</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Open</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <!-- Rows will be added dynamically -->
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div id="orderModal" class="order-modal">
+        <div class="order-modal-content">
+            <span class="close-order" onclick="closeOrderModal()">&times;</span>
+            <h3>Place Order</h3>
+            <label>
+                <input type="checkbox" id="buyCheckbox"> Buy
+            </label>
+            <label>
+                <input type="checkbox" id="sellCheckbox"> Sell
+            </label>
+            <label for="orderType">Order Type:</label>
+            <select id="orderType">
+                <option value="market">Market</option>
+                <option value="limit">Limit</option>
+            </select>
+            <label for="lotSize">Lot Size:</label>
+            <input type="number" id="lotSize" placeholder="Enter Lot Size">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" placeholder="Enter Quantity">
+            <label for="price">Price:</label>
+            <input type="number" id="price" placeholder="Enter Price" step="0.01">
+            <button id="submitOrder" onclick="submitOrder()">Submit</button>
+            <button onclick="closeOrderModal()">Close</button>
+        </div>
+    </div>
+    <script nonce="{{nonce}}">
+        var modal = document.getElementById('myModal');
+        var btn = document.querySelector('.nsc-add-new-script');
+        var span = document.querySelector('.close');
+        var selectedScripts = [];
+        var addedScripts = []; // Track added scripts
+        var orderModal = document.getElementById('orderModal');
+        function openOrderModal(script) {
+            orderModal.style.display = 'flex';
+            document.querySelector('.order-modal-content h3').textContent = `Place Order for ${script}`;
+        }
+        function closeOrderModal() {
+            orderModal.style.display = 'none';
+        }
+        // Open the modal
+        btn.onclick = function() {
+            modal.style.display = 'flex';
+            renderScriptList(); // Render script list each time the modal opens
+        }
+    
+        // Close the modal
+        span.onclick = function() {
+            modal.style.display = 'none';
+        }
+    
+        // Close the modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    
+        // Toggle selection of scripts
+        function toggleSelection(item) {
+            item.classList.toggle('selected');
+        }
+    
+        // Render script list based on added scripts
+        function renderScriptList() {
+            const scriptList = document.querySelector('.script-list');
+            const scripts = ["Nifty 50", "Bank Nifty", "Reliance", "TCS"]; // Add more scripts as needed
+    
+            // Clear the existing list
+            scriptList.innerHTML = '';
+    
+            scripts.forEach(script => {
+                const li = document.createElement('li');
+                li.textContent = script;
+    
+                // Disable or style already added scripts
+                if (addedScripts.includes(script)) {
+                    li.style.color = '#aaa'; // Change color for already added scripts
+                    li.onclick = function() { return false; }; // Disable click
+                } else {
+                    li.onclick = function() {
+                        toggleSelection(li);
+                    };
+                }
+    
+                scriptList.appendChild(li);
+            });
+        }
+    
+        // Add selected scripts to the table
+        document.getElementById('addSelectedScripts').onclick = function() {
+            const selectedItems = document.querySelectorAll('.script-list li.selected');
+            selectedItems.forEach(item => {
+                const scriptName = item.textContent;
+                if (!addedScripts.includes(scriptName)) {
+                    addedScripts.push(scriptName); // Add to the added scripts list
+                }
+            });
+    
+            updateTable();
+            modal.style.display = 'none'; // Close modal after selection
+        }
+    
+        document.getElementById('addAllScripts').onclick = function() {
+            const allItems = document.querySelectorAll('.script-list li');
+            allItems.forEach(item => {
+                const scriptName = item.textContent;
+                if (!addedScripts.includes(scriptName)) {
+                    addedScripts.push(scriptName); // Add to the added scripts list
+                }
+            });
+    
+            updateTable();
+            modal.style.display = 'none'; // Close modal after selection
+        }
+    
+        // Update table with selected scripts
+        function updateTable() {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            addedScripts.forEach(script => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${script}</td>
+                    <td id="${script}Bid" onclick="openOrderModal('${script}')">Loading...</td>
+                    <td id="${script}Ask" onclick="openOrderModal('${script}')">Loading...</td>
+                    <td id="${script}Ltp">Loading...</td>
+                    <td id="${script}Change">Loading...</td>
+                    <td id="${script}Percent">Loading...</td>
+                    <td id="${script}High">Loading...</td>
+                    <td id="${script}Low">Loading...</td>
+                    <td id="${script}Open">Loading...</td>
+                    <td><button onclick="removeScript(this)">Remove</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        function submitOrder() {
+            const buy = document.getElementById('buyCheckbox').checked;
+            const sell = document.getElementById('sellCheckbox').checked;
+            const orderType = document.getElementById('orderType').value;
+            const lotSize = document.getElementById('lotSize').value;
+            const quantity = document.getElementById('quantity').value;
+            const price = document.getElementById('price').value;
+
+            // Example: Process the order here
+            console.log("Order Details:", {
+                buy,
+                sell,
+                orderType,
+                lotSize,
+                quantity,
+                price
+            });
+
+            // Close the modal after submitting the order
+            closeOrderModal();
+        }
+    
+        // Remove script from the table
+        function removeScript(button) {
+            const row = button.parentElement.parentElement;
+            const scriptName = row.cells[0].textContent;
+            row.remove();
+            addedScripts = addedScripts.filter(script => script !== scriptName); // Remove from addedScripts array
+            renderScriptList(); // Re-render the script list to update availability
+        }
+    
+        // Fetch market data for selected scripts
+        async function fetchMarketData() {
+            let niftyPrice = 0; // To hold Nifty price
+            let bankNiftyPrice = 0; // To hold Bank Nifty price
+            
+            for (const script of addedScripts) {
+                try {
+                    const response = await fetch(`/${script.toLowerCase().replace(" ", "")}`);
+                    const data = await response.json();
+                    
+                    // Update the respective row
+                    document.getElementById(`${script}Bid`).textContent = `₹${data.regularMarketPrice.toFixed(2)}`;
+                    document.getElementById(`${script}Ask`).textContent = `₹${(data.regularMarketPrice - 1).toFixed(2)}`;
+                    document.getElementById(`${script}Ltp`).textContent = `₹${data.regularMarketPrice.toFixed(2)}`;
+                    document.getElementById(`${script}Change`).textContent = `₹${data.regularMarketChange.toFixed(2)}`;
+                    document.getElementById(`${script}Percent`).textContent = `${data.regularMarketChangePercent.toFixed(2)}%`;
+                    document.getElementById(`${script}High`).textContent = `₹${data.regularMarketDayHigh.toFixed(2)}`;
+                    document.getElementById(`${script}Low`).textContent = `₹${data.regularMarketDayLow.toFixed(2)}`;
+                    document.getElementById(`${script}Open`).textContent = `₹${data.regularMarketOpen.toFixed(2)}`;
+
+                    // Check if the script is Nifty or Bank Nifty to update the ticker
+                    if (script === "Nifty 50") {
+                        niftyPrice = data.regularMarketPrice;
+                    } else if (script === "Bank Nifty") {
+                        bankNiftyPrice = data.regularMarketPrice;
+                    }
+                } catch (error) {
+                    console.error(`Error fetching data for ${script}:`, error);
+                }
+            }
+
+            // Update the ticker text after fetching data
+        }
+        async function fetchData() {
+            try {
+                // Fetch Nifty price
+                const niftyResponse = await fetch('/nifty50');
+                const niftyData = await niftyResponse.json();
+                const niftyPrice = niftyData.regularMarketPrice;
+
+                // Fetch Bank Nifty price
+                const bankNiftyResponse = await fetch('/banknifty');
+                const bankNiftyData = await bankNiftyResponse.json();
+                const bankNiftyPrice = bankNiftyData.regularMarketPrice;
+
+                // Update the ticker text
+                document.getElementById('tickerText').textContent = 
+                    `Nifty: ${niftyPrice} | Bank Nifty: ${bankNiftyPrice}`;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('tickerText').textContent = 
+                    'Error fetching data';
+            }
+        }
+
+
+        // Fetch data every 5 seconds
+        setInterval(fetchMarketData, 500); // Adjust the interval as needed
+    </script>
+    
+</body>
+
+</html>
