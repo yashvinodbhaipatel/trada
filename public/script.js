@@ -4,6 +4,18 @@ var span = document.querySelector('.close');
 var selectedScripts = [];
 var addedScripts = []; // Track added scripts
 var orderModal = document.getElementById('orderModal');
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.querySelector('.navbar-toggle');
+    const navList = document.querySelector('.navbar ul');
+
+    toggleButton.addEventListener('click', function() {
+        navList.classList.toggle('open');
+    });
+});
+
 function openOrderModal(script) {
     orderModal.style.display = 'flex';
     document.querySelector('.order-modal-content h3').textContent = `Place Order for ${script}`;
@@ -104,6 +116,7 @@ function updateTable() {
                     <td id="${script}High">Loading...</td>
                     <td id="${script}Low">Loading...</td>
                     <td id="${script}Open">Loading...</td>
+                    <td id="${script}Close">Loading...</td>
                     <td><button onclick="removeScript(this)">Remove</button></td>
                 `;
         tbody.appendChild(row);
@@ -159,6 +172,7 @@ async function fetchMarketData() {
             document.getElementById(`${script}High`).textContent = `₹${data.regularMarketDayHigh.toFixed(2)}`;
             document.getElementById(`${script}Low`).textContent = `₹${data.regularMarketDayLow.toFixed(2)}`;
             document.getElementById(`${script}Open`).textContent = `₹${data.regularMarketOpen.toFixed(2)}`;
+            document.getElementById(`${script}Close`).textContent = `₹${data.regularMarketPreviousClose.toFixed(2)}`;
 
             // Check if the script is Nifty or Bank Nifty to update the ticker
             if (script === "Nifty 50") {
