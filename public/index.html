@@ -16,18 +16,24 @@
     </div>
     <!-- Navigation Bar with Custom Image Logos -->
     <nav class="navbar">
-        <ul class="navbar-list">
-            <li><a   href="#watch-market"><img src="navicons/watch.png" alt="Watch Market" class="nav-icon"> Watch
-                    Market</a></li>
-            <li><a   href="#position-report"><img src="navicons/financial-statement.png" alt="Position Report"
-                        class="nav-icon"> Position Report</a></li>
-            <li><a   href="#trading"><img src="navicons/trading-chart.png" alt="Trading" class="nav-icon"> Trading</a>
-            </li>
-            <li><a   href="#logs"><img src="navicons/log-file.png" alt="Logs" class="nav-icon"> Logs</a></li>
-            <li><a   href="#ledger"><img src="navicons/ledger.png" alt="Ledger" class="nav-icon"> Ledger</a></li>
-            <li><a   href="#settings"><img src="navicons/setting-gear.png" alt="Settings" class="nav-icon"> Settings</a>
-            </li>
-        </ul>
+        <div class="navbar-container">
+            <!-- Toggle Button (Hamburger Icon) -->
+            <div class="navbar-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+    
+            <!-- Navbar List -->
+            <ul class="navbar-list">
+                <li><a href="#watch-market"><img src="navicons/watch.png" alt="Watch Market" class="nav-icon"> Watch Market</a></li>
+                <li><a href="#position-report"><img src="navicons/financial-statement.png" alt="Position Report" class="nav-icon"> Position Report</a></li>
+                <li><a href="#trading"><img src="navicons/trading-chart.png" alt="Trading" class="nav-icon"> Trading</a></li>
+                <li><a href="#logs"><img src="navicons/log-file.png" alt="Logs" class="nav-icon"> Logs</a></li>
+                <li><a href="#ledger"><img src="navicons/ledger.png" alt="Ledger" class="nav-icon"> Ledger</a></li>
+                <li><a href="#settings"><img src="navicons/setting-gear.png" alt="Settings" class="nav-icon"> Settings</a></li>
+            </ul>
+        </div>
     </nav>
 
     <div class="main-con">
@@ -36,10 +42,10 @@
                 <span class="mcx-text-on-top-on-top">MCX</span>
             </div>
             <br>
+            <input class="search" type="text" placeholder="Search...">
             <br>
             <div class="controls">
                 <button class="mcx-add-new-script">Add New Script</button>
-                <input class="search" type="text" placeholder="Search...">
                 <button class="add-new-expiry">Add New Expiry</button>
                 <button class="mcx-add-all-Script">Add All Script</button>
             </div>
@@ -50,11 +56,12 @@
                 <span class="mcx-text-on-top-on-top">NSE</span>
             </div>
             <br>
+            <input class="search" type="text" placeholder="Search...">
+
             <br>
 
             <div class="controls">
                 <button class="nsc-add-new-script">Add New Script</button>
-                <input class="search" type="text" placeholder="Search...">
                 <button class="add-new-expiry">Add New Expiry</button>
                 <button class="addAllScripts">Add All Script</button>
             </div>
@@ -88,6 +95,7 @@
                             <th>High</th>
                             <th>Low</th>
                             <th>Open</th>
+                            <th>Close</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -129,11 +137,12 @@
             <span class="mcx-text-on-top-on-top">NOPT</span>
         </div>
         <br>
+        <input class="search" type="text" placeholder="Search...">
+
         <br>
 
         <div class="controls">
             <button class="mcx-add-new-script">Add New Script</button>
-            <input class="search" type="text" placeholder="Search...">
             <button class="mcx-add-all-Script">Add All Script</button>
         </div>
     </div>
