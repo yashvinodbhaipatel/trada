@@ -28,6 +28,7 @@ h1 {
 }
 
 .mcx-con {
+    top : 60px;
     margin: 20px 0;
     padding: 20px;
     background-color: #2a394e;
@@ -74,7 +75,7 @@ input.search {
     border: 1px solid #333;
     border-radius: 5px;
     margin: 0 4px;
-    width: calc(20% - 16px);
+    
     background-color: #1e2a36;
     color: white;
 }
@@ -193,31 +194,48 @@ input.search::placeholder {
     background-color: #45a049;
 }
 .ticker {
-    overflow: hidden;
-    white-space: nowrap;
-    background-color: #1e2a36;
-    padding: 10px 0;
-    position: relative;
-    font-size: 18px;
-    border-radius: 15px;
+    position: fixed; /* Keep the ticker fixed at the top */
+    top: 0; /* Align it to the top of the page */
+    left: 0; /* Start from the left edge */
+    width: 100%; /* Make the ticker span the entire width */
+    background-color: #ffffff; /* Background color */
+    padding: 10px 0; /* Padding for the ticker */
+    z-index: 9999; /* Ensure it stays above other elements */
+    overflow: hidden; /* Hide overflow to create scrolling effect */
+    white-space: nowrap; /* Prevent line breaks */
+    border-bottom: 2px solid #e69b05; /* Optional border at the bottom for visual effect */
 }
 
+/* Ticker Text Animation */
 .ticker-text {
     display: inline-block;
-    animation: scroll 10s linear infinite; /* Adjust the duration for speed */
+    padding-left: 100%; /* Start off-screen from the right */
+    animation: scroll 10s linear infinite; /* Adjust the duration for the scroll speed */
     color: #e69b05; /* Ticker text color */
+    font-size: 18px;
 }
 
+/* Basic Navbar Styling */
 .navbar {
-    background-color: #0c1b33; /* or any dark theme color */
+    background-color: #0c1b33;
     padding: 10px;
-    text-align: center;
+    position: fixed; /* Fix the navbar at the top */
+    width: 100%; /* Make the navbar span the entire width */
+    z-index: 1000; /* Ensure it appears above other elements */
+    top: 45px; /* Position it at the top */
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
 }
 
 .navbar ul li {
@@ -230,37 +248,81 @@ input.search::placeholder {
     text-decoration: none;
     font-weight: bold;
     font-size: 16px;
+    display: flex;
+    align-items: center;
 }
 
 .navbar ul li a:hover {
-    color: #83a3ff; /* Lighter hover color for links */
-}
-.navbar ul li a {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.navbar ul li a .fas, .navbar ul li a .nav-icon {
-    margin-right: 8px;
+    color: #83a3ff;
 }
 
 .nav-icon {
     width: 20px;
     height: 20px;
+    margin-right: 8px;
 }
+
+/* Toggle Button Styling */
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.navbar-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Adjust based on the navbar height */
+        left: 0;
+        width: 100%;
+        background-color: #0c1b33;
+        display: none; /* Initially hidden */
+        z-index: 1000; /* Make sure it appears above other content */
+    }
+
+    .navbar ul li {
+        display: block;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .navbar ul li a {
+        font-size: 18px;
+    }
+
+    .navbar-toggle {
+        display: flex; /* Show the toggle button */
+    }
+
+    .navbar ul.open {
+        display: flex; /* Show the menu when toggled */
+    }
+
+    /* Prevent other content from being covered by navbar */
+    .main-con {
+        margin-top: 60px; /* Adjust to the navbar height */
+    }
+}
+
 
 
 @keyframes scroll {
     from {
-        transform: translateX(400%); /* Start from the right */
+        transform: translateX(0%); /* Start from the right */
     }
 
     to {
-        transform: translateX(-400%); /* End at the left */
+        transform: translateX(-100%); /* End at the left */
     }
 }
 
