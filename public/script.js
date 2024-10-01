@@ -5,8 +5,6 @@ var selectedScripts = [];
 var addedScripts = []; // Track added scripts
 var orderModal = document.getElementById('orderModal');
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.querySelector('.navbar-toggle');
     const navList = document.querySelector('.navbar ul');
@@ -20,9 +18,11 @@ function openOrderModal(script) {
     orderModal.style.display = 'flex';
     document.querySelector('.order-modal-content h3').textContent = `Place Order for ${script}`;
 }
+
 function closeOrderModal() {
     orderModal.style.display = 'none';
 }
+
 // Open the modal
 btn.onclick = function () {
     modal.style.display = 'flex';
@@ -49,7 +49,7 @@ function toggleSelection(item) {
 // Render script list based on added scripts
 function renderScriptList() {
     const scriptList = document.querySelector('.script-list');
-    const scripts = ["Nifty 50", "Bank Nifty", "Reliance", "TCS"]; // Add more scripts as needed
+    const scripts = ["Nifty 50", "Bank Nifty", "Reliance", "TCS", "AARTIIND", "ABB" ,"ABBOTINDIA" , "ABCAPITAL", "ACC"]; // Add more scripts as needed
 
     // Clear the existing list
     scriptList.innerHTML = '';
@@ -72,6 +72,11 @@ function renderScriptList() {
     });
 }
 
+// Function to log the count of added scripts
+function logAddedScriptsCount() {
+    console.log(`Number of added scripts: ${addedScripts.length}`);
+}
+
 // Add selected scripts to the table
 document.getElementById('addSelectedScripts').onclick = function () {
     const selectedItems = document.querySelectorAll('.script-list li.selected');
@@ -79,6 +84,7 @@ document.getElementById('addSelectedScripts').onclick = function () {
         const scriptName = item.textContent;
         if (!addedScripts.includes(scriptName)) {
             addedScripts.push(scriptName); // Add to the added scripts list
+            logAddedScriptsCount(); // Log the count whenever a script is added
         }
     });
 
@@ -92,6 +98,7 @@ document.getElementById('addAllScripts').onclick = function () {
         const scriptName = item.textContent;
         if (!addedScripts.includes(scriptName)) {
             addedScripts.push(scriptName); // Add to the added scripts list
+            logAddedScriptsCount(); // Log the count whenever a script is added
         }
     });
 
@@ -107,21 +114,22 @@ function updateTable() {
     addedScripts.forEach(script => {
         const row = document.createElement('tr');
         row.innerHTML = `
-                    <td>${script}</td>
-                    <td id="${script}Bid" onclick="openOrderModal('${script}')">Loading...</td>
-                    <td id="${script}Ask" onclick="openOrderModal('${script}')">Loading...</td>
-                    <td id="${script}Ltp">Loading...</td>
-                    <td id="${script}Change">Loading...</td>
-                    <td id="${script}Percent">Loading...</td>
-                    <td id="${script}High">Loading...</td>
-                    <td id="${script}Low">Loading...</td>
-                    <td id="${script}Open">Loading...</td>
-                    <td id="${script}Close">Loading...</td>
-                    <td><button onclick="removeScript(this)">Remove</button></td>
-                `;
+            <td>${script}</td>
+            <td id="${script}Bid" onclick="openOrderModal('${script}')">Loading...</td>
+            <td id="${script}Ask" onclick="openOrderModal('${script}')">Loading...</td>
+            <td id="${script}Ltp">Loading...</td>
+            <td id="${script}Change">Loading...</td>
+            <td id="${script}Percent">Loading...</td>
+            <td id="${script}High">Loading...</td>
+            <td id="${script}Low">Loading...</td>
+            <td id="${script}Open">Loading...</td>
+            <td id="${script}Close">Loading...</td>
+            <td><button onclick="removeScript(this)">Remove</button></td>
+        `;
         tbody.appendChild(row);
     });
 }
+
 function submitOrder() {
     const buy = document.getElementById('buyCheckbox').checked;
     const sell = document.getElementById('sellCheckbox').checked;
@@ -150,6 +158,7 @@ function removeScript(button) {
     const scriptName = row.cells[0].textContent;
     row.remove();
     addedScripts = addedScripts.filter(script => script !== scriptName); // Remove from addedScripts array
+    logAddedScriptsCount(); // Log the count whenever a script is removed
     renderScriptList(); // Re-render the script list to update availability
 }
 
@@ -187,6 +196,7 @@ async function fetchMarketData() {
 
     // Update the ticker text after fetching data
 }
+
 async function fetchData() {
     try {
         // Fetch Nifty price
@@ -209,10 +219,9 @@ async function fetchData() {
     }
 }
 
-
 // Fetch data every 5 seconds
 setInterval(fetchMarketData, 500); // Adjust the interval as needed
-fetchData();
+setInterval(fetchData, 500);
 const mobile_nav = document.querySelector(".mobile-navbar-btn");
 const nav_header = document.querySelector(".header");
 
