@@ -39,6 +39,56 @@ app.get('/reliance', async (req, res) => {
     }
 });
 
+app.get('/aartiind', async (req, res) => {
+    try {
+        const relianceData = await yahooFinance.quote("AARTIIND.NS");
+        res.json(relianceData);
+    } catch (error) {
+        console.error("Error fetching Reliance data:", error);
+        res.status(500).json({ error: "Unable to fetch data" });
+    }
+});
+
+app.get('/abb', async (req, res) => {
+    try {
+        const relianceData = await yahooFinance.quote("ABB.NS");
+        res.json(relianceData);
+    } catch (error) {
+        console.error("Error fetching Reliance data:", error);
+        res.status(500).json({ error: "Unable to fetch data" });
+    }
+});
+
+app.get('/abbotindia', async (req, res) => {
+    try {
+        const relianceData = await yahooFinance.quote("ABBOTINDIA.NS");
+        res.json(relianceData);
+    } catch (error) {
+        console.error("Error fetching Reliance data:", error);
+        res.status(500).json({ error: "Unable to fetch data" });
+    }
+});
+
+app.get('/abcapital', async (req, res) => {
+    try {
+        const relianceData = await yahooFinance.quote("ABCAPITAL.NS");
+        res.json(relianceData);
+    } catch (error) {
+        console.error("Error fetching Reliance data:", error);
+        res.status(500).json({ error: "Unable to fetch data" });
+    }
+});
+
+app.get('/acc', async (req, res) => {
+    try {
+        const relianceData = await yahooFinance.quote("ACC.NS");
+        res.json(relianceData);
+    } catch (error) {
+        console.error("Error fetching Reliance data:", error);
+        res.status(500).json({ error: "Unable to fetch data" });
+    }
+});
+
 // Route to fetch TCS stock price
 app.get('/tcs', async (req, res) => {
     try {
